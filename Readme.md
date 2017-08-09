@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Иван Мулярчик](https://up.htmlacademy.ru/javascript/10/user/382187).
-* Наставник: `Неизвестно`.
+* Наставник: [Роман Чаругин](https://htmlacademy.ru/profile/id345379).
 
 ---
 
