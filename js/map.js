@@ -77,9 +77,14 @@ var createRandomAd = function () {
       'avatar': 'img/avatars/user' + getRandomElement(userID) + '.png'
     },
 
+    'location': {
+      'x': getRandomInteger(minX, maxX),
+      'y': getRandomInteger(minY, maxY)
+    },
+
     'offer': {
       'title': getRandomElement(title),
-      'address': getRandomInteger(minX, maxX) + ', ' + getRandomInteger(minY, maxY),
+      'address': location.x + ', ' + location.y,
       'price': getRandomInteger(minPrice, maxPrice),
       'type': getRandomElement(type),
       'rooms': getRandomElement(minRooms, maxRooms),
@@ -89,11 +94,6 @@ var createRandomAd = function () {
       'features': getRandomArray(features),
       'description': '',
       'photos': []
-    },
-
-    'location': {
-      'x': getRandomInteger(minX, maxX),
-      'y': getRandomInteger(minY, maxY)
     }
   };
 };
@@ -145,6 +145,12 @@ function renderLodge(adsArr) {
   var lodgeContainer = document.querySelector('#offer-dialog');
   var dialogPanel = document.querySelector('.dialog__panel');
   var lodgeElement = lodgeTemplate.cloneNode(true);
+
+  for (var i = 0; i < adsArr.offer.features.length; i++) {
+    var span = document.createElement('span');
+    span.className = 'feature__image feature__image--' + adsArr.offer.features[i];
+    lodgeElement.querySelector('.lodge__features').appendChild(span);
+  }
 
   // Заполнение данными
   lodgeElement.querySelector('.lodge__title').textContent = adsArr.offer.title;
