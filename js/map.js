@@ -116,8 +116,10 @@ var createPin = function (ad) {
 
   pin.appendChild(img);
   pin.className = 'pin';
-  pin.style.left = ad.location.x - pinHalfWidth;
-  pin.style.top = ad.location.y - pinHeight;
+
+  var positionY = ad.location.y - pinHeight;
+  var positionX = ad.location.x - pinHalfWidth;
+  pin.setAttribute('style', 'left: ' + positionX + 'px;' + 'top: ' + positionY + 'px;');
 
   img.className = 'rounded';
   img.width = 40;
