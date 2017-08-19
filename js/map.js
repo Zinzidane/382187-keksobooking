@@ -84,10 +84,10 @@ var createRandomAd = function () {
 
     'offer': {
       'title': getRandomElement(title),
-      'address': location.x + ', ' + location.y,
+      'address': getRandomInteger(minX, maxX) + ', ' + getRandomInteger(minY, maxY),
       'price': getRandomInteger(minPrice, maxPrice),
       'type': getRandomElement(type),
-      'rooms': getRandomElement(minRooms, maxRooms),
+      'rooms': getRandomInteger(minRooms, maxRooms),
       'guests': getRandomInteger(1, 8),
       'checkin': getRandomElement(checkin),
       'checkout': getRandomElement(checkout),
