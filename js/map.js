@@ -1,17 +1,7 @@
 // map.js
 'use strict';
 
-var userID = [
-  '01',
-  '02',
-  '03',
-  '04',
-  '05',
-  '06',
-  '07',
-  '08'
-];
-var title = [
+var TITLE_LIST = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
   'Огромный прекрасный дворец',
@@ -21,26 +11,26 @@ var title = [
   'Уютное бунгало далеко от моря',
   'Неуютное бунгало по колено в воде'
 ];
-var minPrice = 1000;
-var maxPrice = 1000000;
-var type = [
+var MIN_PRICE = 1000;
+var MAX_PRICE = 1000000;
+var TYPE_LIST = [
   'flat',
   'house',
   'bungalo'
 ];
-var minRooms = 1;
-var maxRooms = 5;
-var checkin = [
+var MIN_ROOMS = 1;
+var MAX_ROOMS = 5;
+var CHECKIN_LIST = [
   '12:00',
   '13:00',
   '14:00'
 ];
-var checkout = [
+var CHECKOUT_LIST = [
   '12:00',
   '13:00',
   '14:00'
 ];
-var features = [
+var FEATURES_LIST = [
   'wifi',
   'dishwasher',
   'parking',
@@ -48,10 +38,10 @@ var features = [
   'elevator',
   'conditioner'
 ];
-var minX = 300;
-var maxX = 900;
-var minY = 100;
-var maxY = 500;
+var MIN_X = 300;
+var MAX_X = 900;
+var MIN_Y = 100;
+var MAX_Y = 500;
 
 // Функция создания случайного числа из выбранного диапазона
 var getRandomInteger = function (min, max) {
@@ -60,8 +50,14 @@ var getRandomInteger = function (min, max) {
   return rand;
 };
 
+// Функция случайной сортировки, которая передается в метод .sort массива
+var compareRandom = function () {
+  return Math.random() - 0.5;
+};
+
 // Функция создания массива случайной длины из массива значений.
 var getRandomArray = function (arr) {
+  arr.sort(compareRandom);
   return arr.slice(0, getRandomInteger(0, arr.length));
 };
 
@@ -74,24 +70,24 @@ var getRandomElement = function (arr) {
 var createRandomAd = function () {
   return {
     'author': {
-      'avatar': 'img/avatars/user' + getRandomElement(userID) + '.png'
+      'avatar': 'img/avatars/user0' + getRandomInteger(1, 8) + '.png'
     },
 
     'location': {
-      'x': getRandomInteger(minX, maxX),
-      'y': getRandomInteger(minY, maxY)
+      'x': getRandomInteger(MIN_X, MAX_X),
+      'y': getRandomInteger(MIN_Y, MAX_Y)
     },
 
     'offer': {
-      'title': getRandomElement(title),
-      'address': getRandomInteger(minX, maxX) + ', ' + getRandomInteger(minY, maxY),
-      'price': getRandomInteger(minPrice, maxPrice),
-      'type': getRandomElement(type),
-      'rooms': getRandomInteger(minRooms, maxRooms),
+      'title': getRandomElement(TITLE_LIST),
+      'address': getRandomInteger(MIN_X, MAX_X) + ', ' + getRandomInteger(MIN_Y, MAX_Y),
+      'price': getRandomInteger(MIN_PRICE, MAX_PRICE),
+      'type': getRandomElement(TYPE_LIST),
+      'rooms': getRandomInteger(MIN_ROOMS, MAX_ROOMS),
       'guests': getRandomInteger(1, 8),
-      'checkin': getRandomElement(checkin),
-      'checkout': getRandomElement(checkout),
-      'features': getRandomArray(features),
+      'checkin': getRandomElement(CHECKIN_LIST),
+      'checkout': getRandomElement(CHECKOUT_LIST),
+      'features': getRandomArray(FEATURES_LIST),
       'description': '',
       'photos': []
     }
@@ -148,17 +144,32 @@ function renderLodge(adsArr) {
   var dialogPanel = document.querySelector('.dialog__panel');
   var lodgeElement = lodgeTemplate.cloneNode(true);
 
+
   for (var i = 0; i < adsArr.offer.features.length; i++) {
     var span = document.createElement('span');
     span.className = 'feature__image feature__image--' + adsArr.offer.features[i];
     lodgeElement.querySelector('.lodge__features').appendChild(span);
   }
 
+  // Функция, которая возращает значение типа жилья
+  var offerType = function (type) {
+    if (type === 'flat') {
+      type = 'Квартира';
+      return type;
+    } else if (type === 'bungalo') {
+      type = 'Бунгало';
+      return type;
+    } else {
+      type = 'Дом';
+      return type;
+    }
+  };
+
   // Заполнение данными
   lodgeElement.querySelector('.lodge__title').textContent = adsArr.offer.title;
   lodgeElement.querySelector('.lodge__address').textContent = adsArr.offer.address;
   lodgeElement.querySelector('.lodge__price').innerHTML = adsArr.offer.price + ' ' + '&#x20bd;/ночь';
-  lodgeElement.querySelector('.lodge__type').textContent = adsArr.offer.type;
+  lodgeElement.querySelector('.lodge__type').textContent = offerType(adsArr.offer.type);
   lodgeElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + adsArr.offer.guests + ' гостей в ' + adsArr.offer.rooms + ' комнатах ';
   lodgeElement.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + adsArr.offer.checkin + ', выезд до ' + adsArr.offer.checkout;
   lodgeElement.querySelector('.lodge__description').textContent = adsArr.offer.description;
