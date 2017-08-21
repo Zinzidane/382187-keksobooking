@@ -154,14 +154,11 @@ function renderLodge(adsArr) {
   // Функция, которая возращает значение типа жилья
   var offerType = function (type) {
     if (type === 'flat') {
-      type = 'Квартира';
-      return type;
+      return 'Квартира';
     } else if (type === 'bungalo') {
-      type = 'Бунгало';
-      return type;
+      return 'Бунгало';
     } else {
-      type = 'Дом';
-      return type;
+      return 'Дом';
     }
   };
 
