@@ -145,12 +145,13 @@ function renderLodge(adsArr) {
   var lodgeTemplate = document.querySelector('#lodge-template').content;
   var lodgeElement = lodgeTemplate.cloneNode(true);
   var dialogAvatar = document.querySelector('.dialog__title > img');
+  var featuresArray = Array.prototype.slice.call(adsArr.offer.features);
 
-  for (var i = 0; i < adsArr.offer.features.length; i++) {
+  featuresArray.forEach(function (feature) {
     var span = document.createElement('span');
-    span.className = 'feature__image feature__image--' + adsArr.offer.features[i];
+    span.className = 'feature__image feature__image--' + feature;
     lodgeElement.querySelector('.lodge__features').appendChild(span);
-  }
+  });
 
   // Функция, которая возращает значение типа жилья
   var offerType = function (type) {
@@ -187,26 +188,24 @@ var offerDialog = document.querySelector('#offer-dialog');
 var dialogClose = offerDialog.querySelector('.dialog__close');
 var dialogPanel = document.querySelector('.dialog__panel');
 
+// Функция, которая добавляет класс pin--active выделенному элементу
+var activatePin = function (evt) {
+  var pinsArray = Array.prototype.slice.call(pins); // Преобразовываем pins(NodeList) в pinsArray(Array), чтобы в дальнейшем воспользоваться методом indexOf
+  removeClass(pins, 'pin--active');
+  var target = evt.currentTarget;
+  target.classList.add('pin--active');
+
+  var activePinNumber = pinsArray.indexOf(target);
+
+  openDialog(activePinNumber);
+  offerDialog.classList.remove('hidden');
+};
+
 // Функция, которая активирует маркер по левому клику
 var pinEventHandler = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
     activatePin(evt);
   }
-};
-
-// Функция, которая добавляет класс pin--active выделенному элементу
-var activatePin = function (evt) {
-  var activePinNumber;
-  removeClass(pins, 'pin--active');
-  var target = evt.currentTarget;
-  target.classList.add('pin--active');
-  for (var i = 0; i < pins.length; i++) {
-    if (pins[i] === target) {
-      activePinNumber = i;
-    }
-  }
-  openDialog(activePinNumber);
-  offerDialog.classList.remove('hidden');
 };
 
 // Функция, которая открывает окно с предложением
