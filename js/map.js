@@ -188,6 +188,12 @@ var offerDialog = document.querySelector('#offer-dialog');
 var dialogClose = offerDialog.querySelector('.dialog__close');
 var dialogPanel = document.querySelector('.dialog__panel');
 
+// Активирует первый пин с диалогом при открытии страницы
+var activateFirstPin = function (arr) {
+  arr[0].classList.add('pin--active');
+  openDialog(0);
+};
+
 // Функция, которая добавляет класс pin--active выделенному элементу
 var activatePin = function (evt) {
   var pinsArray = Array.prototype.slice.call(pins); // Преобразовываем pins(NodeList) в pinsArray(Array), чтобы в дальнейшем воспользоваться методом indexOf
@@ -236,5 +242,6 @@ for (var i = 0; i < pins.length; i++) {
   pins[i].addEventListener('keydown', pinEventHandler);
 }
 
+activateFirstPin(pins);
 dialogClose.addEventListener('click', deactivateDialogAndPin);
 document.body.addEventListener('keydown', deactivateDialogAndPin);
