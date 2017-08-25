@@ -42,6 +42,8 @@ var MIN_X = 300;
 var MAX_X = 900;
 var MIN_Y = 100;
 var MAX_Y = 500;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 // Функция создания случайного числа из выбранного диапазона
 var getRandomInteger = function (min, max) {
@@ -110,6 +112,7 @@ var createPin = function (ad) {
   var pinHalfWidth = 56 / 2;
   var pinHeight = 75;
 
+  pin.setAttribute('tabindex', '0');
   pin.appendChild(img);
   pin.className = 'pin';
 
@@ -140,16 +143,15 @@ var renderPin = function (pinArr) {
 // Функция, которая отрисовывает объявления
 function renderLodge(adsArr) {
   var lodgeTemplate = document.querySelector('#lodge-template').content;
-  var lodgeContainer = document.querySelector('#offer-dialog');
-  var dialogPanel = document.querySelector('.dialog__panel');
   var lodgeElement = lodgeTemplate.cloneNode(true);
+  var dialogAvatar = document.querySelector('.dialog__title > img');
+  var featuresArray = Array.prototype.slice.call(adsArr.offer.features);
 
-
-  for (var i = 0; i < adsArr.offer.features.length; i++) {
+  featuresArray.forEach(function (feature) {
     var span = document.createElement('span');
-    span.className = 'feature__image feature__image--' + adsArr.offer.features[i];
+    span.className = 'feature__image feature__image--' + feature;
     lodgeElement.querySelector('.lodge__features').appendChild(span);
-  }
+  });
 
   // Функция, которая возращает значение типа жилья
   var offerType = function (type) {
@@ -172,11 +174,74 @@ function renderLodge(adsArr) {
   lodgeElement.querySelector('.lodge__description').textContent = adsArr.offer.description;
 
   // Изменение аватарки пользователя
-  var dialogAvatar = document.querySelector('.dialog__title > img');
   dialogAvatar.setAttribute('src', adsArr.author.avatar);
-  lodgeContainer.replaceChild(lodgeElement, dialogPanel);
+
+  return lodgeElement;
 }
 
 getAdsArr(adsArray, 8);
 renderPin(adsArray);
-renderLodge(adsArray[0]);
+
+var pinMap = document.querySelector('.tokyo__pin-map');
+var pins = pinMap.querySelectorAll('.pin:not(:first-child)'); // За исключением .pin__main
+var offerDialog = document.querySelector('#offer-dialog');
+var dialogClose = offerDialog.querySelector('.dialog__close');
+var dialogPanel = document.querySelector('.dialog__panel');
+
+// Активирует первый пин с диалогом при открытии страницы
+var activateFirstPin = function (arr) {
+  arr[0].classList.add('pin--active');
+  openDialog(0);
+};
+
+// Функция, которая добавляет класс pin--active выделенному элементу
+var activatePin = function (evt) {
+  var pinsArray = Array.prototype.slice.call(pins); // Преобразовываем pins(NodeList) в pinsArray(Array), чтобы в дальнейшем воспользоваться методом indexOf
+  removeClass(pins, 'pin--active');
+  var target = evt.currentTarget;
+  target.classList.add('pin--active');
+
+  var activePinNumber = pinsArray.indexOf(target);
+
+  openDialog(activePinNumber);
+  offerDialog.classList.remove('hidden');
+};
+
+// Функция, которая активирует маркер по левому клику
+var pinEventHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE || evt.type === 'click') {
+    activatePin(evt);
+  }
+};
+
+// Функция, которая открывает окно с предложением
+var openDialog = function (activePinNumber) {
+  dialogPanel.innerHTML = '';
+  dialogPanel.appendChild(renderLodge(adsArray[activePinNumber]));
+};
+
+// Функция, которая убирает класс
+var removeClass = function (elements, className) {
+  elements.forEach(function (element) {
+    if (element.classList.contains(className)) {
+      element.classList.remove(className);
+    }
+  });
+};
+
+// Функция, которая скрывает окно с предложением
+var deactivateDialogAndPin = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE || evt.type === 'click') {
+    offerDialog.classList.add('hidden');
+    removeClass(pins, 'pin--active');
+  }
+};
+
+for (var i = 0; i < pins.length; i++) {
+  pins[i].addEventListener('click', pinEventHandler);
+  pins[i].addEventListener('keydown', pinEventHandler);
+}
+
+activateFirstPin(pins);
+dialogClose.addEventListener('click', deactivateDialogAndPin);
+document.body.addEventListener('keydown', deactivateDialogAndPin);
