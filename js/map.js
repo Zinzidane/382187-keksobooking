@@ -258,7 +258,7 @@ var timeIn = form.querySelector('#timein');
 var timeOut = form.querySelector('#timeout');
 var roomNumber = form.querySelector('#room_number');
 var capacity = form.querySelector('#capacity');
-
+var address = form.querySelector('#address');
 
 // Сброс формы по умолчанию
 var setDefaultForm = function () {
@@ -271,6 +271,7 @@ var setDefaultForm = function () {
   price.min = 0;
   price.max = 1000000;
   price.value = 1000;
+  address.required = true;
 };
 
 setDefaultForm();
@@ -317,6 +318,24 @@ roomNumber.addEventListener('change', function () {
   }
 });
 
+// Зависимость количеества комнат от количества мест
+capacity.addEventListener('change', function () {
+  switch (capacity.value) {
+    case '0':
+      roomNumber.value = '1';
+      break;
+    case '1':
+      roomNumber.value = '2';
+      break;
+    case '2':
+      roomNumber.value = '3';
+      break;
+    case '3':
+      roomNumber.value = '100';
+      break;
+  }
+});
+
 // Валидация текстового поля
 var validateTitleInput = function (textField, minLength, maxLength) {
   if (textField.value.length < minLength || textField.value.length > maxLength) {
@@ -337,11 +356,24 @@ var validateNumberInput = function (numberField, minValue, maxValue) {
   return true;
 };
 
+var validateAddress = function (addressField) {
+  switch (addressField.value) {
+    case '':
+      addressField.style.borderColor = 'red';
+      return false;
+    default:
+      addressField.style.borderColor = '';
+      return true;
+  }
+};
+
 // Функция валидация формы
 var validateForm = function () {
   var titleValid = validateTitleInput(title, title.minLength, title.maxLength);
   var numberValid = validateNumberInput(price, price.min, price.max);
-  return titleValid && numberValid;
+  var addressValid = validateAddress(address);
+
+  return titleValid && numberValid && addressValid;
 };
 
 // Проверка правильности заполнения полей формы
