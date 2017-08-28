@@ -19,8 +19,6 @@
     'house',
     'bungalo'
   ];
-  var MIN_ROOMS = 1;
-  var MAX_ROOMS = 5;
   var CHECKIN_LIST = [
     '12:00',
     '13:00',
@@ -39,12 +37,18 @@
     'elevator',
     'conditioner'
   ];
+  var MIN_ROOMS = 1;
+  var MAX_ROOMS = 5;
+  var MIN_GUESTS = 1;
+  var MAX_GUESTS = 8;
   var MIN_X = 300;
   var MAX_X = 900;
   var MIN_Y = 100;
   var MAX_Y = 500;
-  var ESC_KEYCODE = 27;
-  var ENTER_KEYCODE = 13;
+  var ADS_NUMBER = 8;
+
+  // Создаем массив объявлений
+  var adsArray = [];
 
   // Функция создания случайного числа из выбранного диапазона
   var getRandomInteger = function (min, max) {
@@ -52,7 +56,6 @@
     rand = Math.floor(rand);
     return rand;
   };
-
   // Функция случайной сортировки, которая передается в метод .sort массива
   var compareRandom = function () {
     return Math.random() - 0.5;
@@ -69,11 +72,19 @@
     return arr[Math.floor(Math.random() * arr.length)];
   };
 
-  // Функция создания случайного объявления
-  var createRandomAd = function () {
-    return {
+  // Объявляем функцию получения пути к аватару автора объявления
+  var getAuthorAvatar = function (numeral) {
+    if (numeral < 10) {
+      return 'img/avatars/user0' + numeral + '.png';
+    } else {
+      return 'img/avatars/user' + numeral + '.png';
+    }
+  };
+
+  for (var i = 0; i < ADS_NUMBER; i++) {
+    adsArray[i] = {
       'author': {
-        'avatar': 'img/avatars/user0' + getRandomInteger(1, 8) + '.png'
+        'avatar': getAuthorAvatar(i + 1)
       },
 
       'location': {
@@ -87,7 +98,7 @@
         'price': getRandomInteger(MIN_PRICE, MAX_PRICE),
         'type': getRandomElement(TYPE_LIST),
         'rooms': getRandomInteger(MIN_ROOMS, MAX_ROOMS),
-        'guests': getRandomInteger(1, 8),
+        'guests': getRandomInteger(MIN_GUESTS, MAX_GUESTS),
         'checkin': getRandomElement(CHECKIN_LIST),
         'checkout': getRandomElement(CHECKOUT_LIST),
         'features': getRandomArray(FEATURES_LIST),
@@ -95,16 +106,7 @@
         'photos': []
       }
     };
-  };
-
-  var adsArray = [];
-
-  var getAdsArr = function (arr, length) {
-    for (var i = 0; i < length; i++) {
-      arr.push(createRandomAd());
-    }
-    return arr;
-  };
-
-  window.data = getAdsArr(adsArray, 8);
+  }
+  // Поместим массив с данными в глобальную область видимости
+  window.data = adsArray;
 })();

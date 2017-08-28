@@ -2,50 +2,58 @@
 'use strict';
 
 (function () {
+  // Объявляем переменную для контейнера карточки объявления
+  var dialogContainer = document.querySelector('.dialog');
+
   window.card = {
     create: function (element) {
-      var lodgeTemplate = document.querySelector('#lodge-template').content;
-      var lodgeElement = lodgeTemplate.cloneNode(true);
-      var dialogAvatar = document.querySelector('.dialog__title > img');
-      var featuresArray = Array.prototype.slice.call(element.offer.features);
 
-      featuresArray.forEach(function (feature) {
-        var span = document.createElement('span');
-        span.className = 'feature__image feature__image--' + feature;
-        lodgeElement.querySelector('.lodge__features').appendChild(span);
-      });
-
-      // Функция, которая возращает значение типа жилья
-      var offerType = function (type) {
-        if (type === 'flat') {
-          return 'Квартира';
-        } else if (type === 'bungalo') {
-          return 'Бунгало';
-        } else {
-          return 'Дом';
+      // Объявляем функцию создания тегов  по количеству особенностей
+      var addFeatures = function (subElem) {
+        var span;
+        var fragment = document.createDocumentFragment();
+        for (var i = 0; i < subElem.length; i++) {
+          span = document.createElement('span');
+          span.className = 'feature__image feature__image--' + subElem[i];
+          fragment.appendChild(span);
         }
+        return (fragment);
       };
+      // Объявим переменную, внутри которой находится template
+      var lodgeTemplate = document.getElementById('lodge-template').content;
+      // Объявляем переменную, в которую клонируем шаблон объявления
+      var lodgeElement = lodgeTemplate.cloneNode(true);
 
-      // Заполнение данными
       lodgeElement.querySelector('.lodge__title').textContent = element.offer.title;
       lodgeElement.querySelector('.lodge__address').textContent = element.offer.address;
-      lodgeElement.querySelector('.lodge__price').innerHTML = element.offer.price + ' ' + '&#x20bd;/ночь';
-      lodgeElement.querySelector('.lodge__type').textContent = offerType(element.offer.type);
-      lodgeElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + element.offer.guests + ' гостей в ' + element.offer.rooms + ' комнатах ';
+      lodgeElement.querySelector('.lodge__price').textContent = element.offer.price + 'Р/ночь';
+      switch (element.offer.type) {
+        case 'flat':
+          lodgeElement.querySelector('.lodge__type').textContent = 'Квартира';
+          break;
+        case 'bungalo':
+          lodgeElement.querySelector('.lodge__type').textContent = 'Бунгало';
+          break;
+        case 'house':
+          lodgeElement.querySelector('.lodge__type').textContent = 'Дом';
+          break;
+      }
+      // Заполним данные
+      lodgeElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + element.offer.guests + ' гостей в ' + element.offer.rooms + ' комнатах';
       lodgeElement.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
+      lodgeElement.querySelector('.lodge__features').appendChild(addFeatures(element.offer.features));
       lodgeElement.querySelector('.lodge__description').textContent = element.offer.description;
+      document.querySelector('.dialog__title img').src = element.author.avatar;
 
-      // Изменение аватарки пользователя
-      dialogAvatar.setAttribute('src', adsArr.author.avatar);
-
-      return lodgeElement;
+      // Вставим шаблон вместо существующей разметки
+      document.querySelector('.dialog').replaceChild(lodgeElement, document.querySelector('.dialog__panel'));
     },
     open: function (active) {
-      window.card.create(window.date[active]);  // Maybe error!!!!!
-      var dialogContainer = document.querySelector('.dialog').style.display('block');
+      window.card.create(window.data[active]);
+      dialogContainer.style.display = 'block';
     },
     close: function () {
-      var dialogContainer = document.querySelector('.dialog').style.display('none');
+      dialogContainer.style.display = 'none';
     }
   };
 })();
