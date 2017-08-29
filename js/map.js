@@ -9,8 +9,17 @@
   window.pin.render(window.data);
   window.card.close();
 
-  var pinMap = document.querySelector('.tokyo__pin-map');
 
+  var pinMap = document.querySelector('.tokyo__pin-map');
+  var pins = pinMap.querySelectorAll('.pin:not(:first-child)');
+
+  // Активирует первый пин и диалог при загрузке страницы
+  var activateFirstPin = function (arr) {
+    arr[0].classList.add('pin--active');
+    window.card.open(0);
+  };
+
+  activateFirstPin(pins);
   // Описываем нажатие левым кликом по пину
   pinMap.onclick = function (evt) {
     var target = evt.target;
