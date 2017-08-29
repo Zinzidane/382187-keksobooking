@@ -137,4 +137,9 @@
       setDefaultForm();
     }
   });
+
+  // Для записи адреса из метки
+  window.form = {
+    address: address
+  };
 })();
