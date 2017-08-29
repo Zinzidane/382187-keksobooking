@@ -65,7 +65,7 @@
   // Функция вставки координат с карты в строку адреса
   var pasteAddress = function () {
     var pinMainCoords = {
-      x: (pinMain.offsetLeft + pinMain.offsetWidth / 2),
+      x: (pinMain.offsetLeft + pinMain.offsetWidth / 2 + 0.5), // Ширина метки не кратна 2, поэтому добавляем 0,5 px
       y: (pinMain.offsetTop + pinMain.offsetHeight)
     };
     window.form.address.value = 'x: ' + pinMainCoords.x + ', y: ' + pinMainCoords.y;
