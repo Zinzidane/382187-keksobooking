@@ -48,12 +48,9 @@
       // Вставим шаблон вместо существующей разметки
       document.querySelector('.dialog').replaceChild(lodgeElement, document.querySelector('.dialog__panel'));
     },
-    open: function (active) {
-      window.card.create(window.data[active]);
-      dialogContainer.style.display = 'block';
-    },
     close: function () {
       dialogContainer.style.display = 'none';
-    }
+    },
+    dialogContainer: dialogContainer
   };
 })();
