@@ -23,39 +23,23 @@
     price.type = 'number';
     price.min = 0;
     price.max = 1000000;
-    price.value = 1000;
     address.required = true;
   };
 
   setDefaultForm();
 
-  // Автоматическая корректировка полей взаимозависимых полей формы
-  var correctDependentInputs = function (element1, element2) {
-    element1.addEventListener('change', function () {
-      element2.value = element1.value;
-    });
+  var syncValues = function (element, value) {
+    element.value = value;
   };
 
-  correctDependentInputs(timeIn, timeOut);
-  correctDependentInputs(timeOut, timeIn);
+  var syncValueWithMin = function (element, value) {
+    element.min = value;
+    element.value = value;
+  };
 
-  // Синхронизация значения поля «Тип жилья»  с минимальной ценой объявления
-  type.addEventListener('change', function () {
-    switch (type.value) {
-      case 'bungalo':
-        price.value = 0;
-        break;
-      case 'flat':
-        price.value = 1000;
-        break;
-      case 'house':
-        price.value = 5000;
-        break;
-      case 'palace':
-        price.value = 10000;
-        break;
-    }
-  });
+  window.synchronizeFields(timeIn, timeOut, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+  window.synchronizeFields(timeOut, timeIn, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+  window.synchronizeFields(type, price, ['flat', 'bungalo', 'house', 'palace'], [1000, 0, 5000, 10000], syncValueWithMin);
 
   // Зависимость количеества мест от количества комнат
   roomNumber.addEventListener('change', function () {

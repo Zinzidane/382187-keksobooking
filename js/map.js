@@ -16,7 +16,7 @@
   // Активирует первый пин и диалог при загрузке страницы
   var activateFirstPin = function (arr) {
     arr[0].classList.add('pin--active');
-    window.card.open(0);
+    window.showCard(0);
   };
 
   activateFirstPin(pins);
@@ -25,21 +25,22 @@
     var target = evt.target;
     if (target.tagName === 'DIV' && target.dataset.index) {
       window.pin.activate(target);
-      window.card.open(target.dataset.index);
+      window.showCard(target.dataset.index);
     }
     if (target.tagName === 'IMG' && target.closest('.pin').dataset.index) {
       target = target.closest('.pin');
       window.pin.activate(target);
-      window.card.open(target.dataset.index);
+      window.showCard(target.dataset.index);
     }
   };
+
 
   // Описываем нажатие ENTER по пину
   pinMap.onkeydown = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
       var target = evt.target;
       window.pin.activate(target);
-      window.card.open(target.dataset.index);
+      window.showCard(target.dataset.index);
     }
   };
 
