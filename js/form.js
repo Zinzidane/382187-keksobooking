@@ -135,7 +135,7 @@
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     if (validateForm()) {
-      window.backend.save(new FormData(form), onSuccess, onError);
+      window.backend.save(onSuccess, onError, new FormData(form));
     }
   });
 

@@ -3,7 +3,7 @@
 
 (function () {
   var URL = 'https://1510.dump.academy/keksobooking';
-  var sendRequest = function (method, url, onLoad, onError) {
+  var sendRequest = function (method, url, onLoad, onError, data) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -41,16 +41,16 @@
     xhr.timeout = 4000;
 
     xhr.open(method, url);
-    return xhr;
+
+    xhr.send(data);
+
   };
   window.backend = {
     load: function (onLoad, onError) {
-      var xhr = sendRequest('GET', URL + '/data', onLoad, onError);
-      xhr.send();
+      sendRequest('GET', URL + '/data', onLoad, onError);
     },
-    save: function (data, onLoad, onError) {
-      var xhr = sendRequest('POST', URL, onLoad, onError);
-      xhr.send(data);
+    save: function (onLoad, onError, data) {
+      sendRequest('POST', URL, onLoad, onError, data);
     }
   };
 })();
