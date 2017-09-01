@@ -12,16 +12,16 @@
 
   var onError = function (errorMessage) {
     var node = document.createElement('div');
-    node.style.margin = 'auto';
+
+    node.style.margin = '0 auto';
     node.style.textAlign = 'center';
     node.style.backgroundColor = 'red';
     node.style.position = 'relative';
-    node.style.left = 0;
-    node.style.right = 0;
+    node.style.padding = '20px 100px';
     node.style.fontSize = '30px';
     node.style.color = 'white';
     node.textContent = errorMessage;
-    document.querySelector('.tokyo').insertAdjacentElement('beforeend', node);
+    document.querySelector('.tokyo').insertAdjacentElement('afterend', node);
   };
   // Вызов функции загрузки данных
   window.backend.load(onLoad, onError);
