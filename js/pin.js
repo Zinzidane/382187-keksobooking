@@ -4,7 +4,7 @@
 (function () {
   window.pin = {
     render: function (element) {
-      var pinMap = document.querySelector('.tokyo__pin-map');
+      var pinMapContainer = document.querySelector('.tokyo__pin-map');
       var pinHalfWidth = 56 / 2;
       var pinHeight = 75;
       var pin;
@@ -29,7 +29,7 @@
         img.src = element[i].author.avatar;
         fragment.appendChild(pin);
       }
-      pinMap.appendChild(fragment);
+      pinMapContainer.appendChild(fragment);
     },
     deactivate: function () {
       var activePin = document.querySelector('.pin--active');

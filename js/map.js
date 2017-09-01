@@ -5,10 +5,28 @@
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
 
-  // Отображаем пины на карте и скрываем карточки объявления по умолчанию
-  window.pin.render(window.data);
-  window.card.close();
+  var onLoad = function (data) {
+    window.pin.render(data);
+    window.data = data;
+  };
 
+  var onError = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  // Вызов функции загрузки данных
+  window.backend.load(onLoad, onError);
+
+
+  window.card.close();
 
   var pinMap = document.querySelector('.tokyo__pin-map');
   var pins = pinMap.querySelectorAll('.pin:not(:first-child)');
@@ -33,7 +51,6 @@
       window.showCard(target.dataset.index);
     }
   };
-
 
   // Описываем нажатие ENTER по пину
   pinMap.onkeydown = function (evt) {
@@ -97,8 +114,8 @@
         y: moveEvt.clientY
       };
 
-      pinMain.style.top = Math.max(Math.min(pinMain.offsetTop - shift.y, tokyo.clientHeight - pinMain.offsetHeight), 0) + 'px'; // Math.max и Math.min использованы для того, чтобы метка не выезжала за границы карты
-      pinMain.style.left = Math.max(Math.min(pinMain.offsetLeft - shift.x, tokyo.clientWidth - pinMain.offsetWidth), 0)+ 'px';
+      pinMain.style.top = Math.max(Math.min(pinMain.offsetTop - shift.y, tokyo.clientHeight - pinMain.offsetHeight), 0) + 'px';
+      pinMain.style.left = Math.max(Math.min(pinMain.offsetLeft - shift.x, tokyo.clientWidth - pinMain.offsetWidth), 0) + 'px';
     };
 
     var onMouseUp = function (upEvt) {
