@@ -83,27 +83,27 @@
 
   for (var i = 0; i < ADS_NUMBER; i++) {
     adsArray[i] = {
-      'author': {
-        'avatar': getAuthorAvatar(i + 1)
+      author: {
+        avatar: getAuthorAvatar(i + 1)
       },
 
-      'location': {
-        'x': getRandomInteger(MIN_X, MAX_X),
-        'y': getRandomInteger(MIN_Y, MAX_Y)
+      location: {
+        x: getRandomInteger(MIN_X, MAX_X),
+        y: getRandomInteger(MIN_Y, MAX_Y)
       },
 
-      'offer': {
-        'title': getRandomElement(TITLE_LIST),
-        'address': getRandomInteger(MIN_X, MAX_X) + ', ' + getRandomInteger(MIN_Y, MAX_Y),
-        'price': getRandomInteger(MIN_PRICE, MAX_PRICE),
-        'type': getRandomElement(TYPE_LIST),
-        'rooms': getRandomInteger(MIN_ROOMS, MAX_ROOMS),
-        'guests': getRandomInteger(MIN_GUESTS, MAX_GUESTS),
-        'checkin': getRandomElement(CHECKIN_LIST),
-        'checkout': getRandomElement(CHECKOUT_LIST),
-        'features': getRandomArray(FEATURES_LIST),
-        'description': '',
-        'photos': []
+      offer: {
+        title: getRandomElement(TITLE_LIST),
+        address: getRandomInteger(MIN_X, MAX_X) + ', ' + getRandomInteger(MIN_Y, MAX_Y),
+        price: getRandomInteger(MIN_PRICE, MAX_PRICE),
+        type: getRandomElement(TYPE_LIST),
+        rooms: getRandomInteger(MIN_ROOMS, MAX_ROOMS),
+        guests: getRandomInteger(MIN_GUESTS, MAX_GUESTS),
+        checkin: getRandomElement(CHECKIN_LIST),
+        checkout: getRandomElement(CHECKOUT_LIST),
+        features: getRandomArray(FEATURES_LIST),
+        description: '',
+        photos: []
       }
     };
   }

@@ -9,31 +9,30 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        var error;
-
         switch (xhr.status) {
           case 200:
-            onLoad(xhr.status);
+            onLoad(xhr.response);
             break;
           case 400:
-            error = xhr.status + 'Неверный запрос';
+            onError(xhr.status + 'Неверный запрос');
             break;
           case 404:
-            error = xhr.status + 'Не найдено';
+            onError(xhr.status + 'Не найдено');
             break;
           case 418:
-            error = xhr.status + 'Я чайник';
+            onError(xhr.status + 'Я чайник'); // ))
             break;
           case 500:
-            error = xhr.status + 'Ошибка сервера';
+            onError(xhr.status + 'Ошибка сервера');
             break;
           default:
-            error = 'Неизвестный статус' + xhr.status + xhr.statusText;
+            onError('Неизвестный статус' + xhr.status + xhr.statusText);
             break;
         }
-        if (error) {
-          onError(error);
-        }
+      });
+
+      xhr.addEventListener('error', function () {
+        onError('Произошла ошибка соединения');
       });
 
       xhr.addEventListener('timeout', function () {
@@ -50,36 +49,32 @@
       xhr.responseType = 'json';
 
       xhr.addEventListener('load', function () {
-        var error;
-
         switch (xhr.status) {
           case 200:
-            onLoad(xhr.status);
+            onLoad(xhr.response);
             break;
           case 400:
-            error = xhr.status + 'Неверный запрос';
+            onError(xhr.status + 'Неверный запрос');
             break;
           case 404:
-            error = xhr.status + 'Не найдено';
+            onError(xhr.status + 'Не найдено');
             break;
           case 418:
-            error = xhr.status + 'Я чайник';
+            onError(xhr.status + 'Я чайник');
             break;
           case 500:
-            error = xhr.status + 'Ошибка сервера';
+            onError(xhr.status + 'Ошибка сервера');
             break;
           default:
-            error = 'Неизвестный статус' + xhr.status + xhr.statusText;
+            onError('Неизвестный статус' + xhr.status + xhr.statusText);
             break;
-        }
-        if (error) {
-          onError(error);
         }
       });
 
       xhr.addEventListener('error', function () {
         onError('Произошла ошибка соединения');
       });
+
       xhr.addEventListener('timeout', function () {
         onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
       });

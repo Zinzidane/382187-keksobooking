@@ -12,32 +12,24 @@
 
   var onError = function (errorMessage) {
     var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
+    node.style.margin = 'auto';
+    node.style.textAlign = 'center';
+    node.style.backgroundColor = 'red';
+    node.style.position = 'relative';
     node.style.left = 0;
     node.style.right = 0;
     node.style.fontSize = '30px';
-
+    node.style.color = 'white';
     node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+    document.querySelector('.tokyo').insertAdjacentElement('beforeend', node);
   };
-
   // Вызов функции загрузки данных
   window.backend.load(onLoad, onError);
 
 
   window.card.close();
-
   var pinMap = document.querySelector('.tokyo__pin-map');
-  var pins = pinMap.querySelectorAll('.pin:not(:first-child)');
 
-  // Активирует первый пин и диалог при загрузке страницы
-  var activateFirstPin = function (arr) {
-    arr[0].classList.add('pin--active');
-    window.showCard(0);
-  };
-
-  activateFirstPin(pins);
   // Описываем нажатие левым кликом по пину
   pinMap.onclick = function (evt) {
     var target = evt.target;

@@ -113,12 +113,29 @@
     return titleValid && numberValid && addressValid;
   };
 
+  var onSuccess = function () {
+    setDefaultForm();
+  };
+
+  var onError = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style.margin = 'auto';
+    node.style.textAlign = 'center';
+    node.style.backgroundColor = 'red';
+    node.style.position = 'relative';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    node.style.color = 'white';
+    node.textContent = errorMessage;
+    document.querySelector('.notice__form').insertAdjacentElement('beforeend', node);
+  };
+
   // Проверка правильности заполнения полей формы
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     if (validateForm()) {
-      form.submit();
-      setDefaultForm();
+      window.backend.save(new FormData(form), onSuccess, onError);
     }
   });
 
