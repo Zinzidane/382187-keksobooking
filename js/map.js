@@ -60,7 +60,7 @@
   });
 
   // Перетаскивание главного маркера
-
+  var tokyo = document.querySelector('.tokyo');
   var pinMain = pinMap.querySelector('.pin__main');
 
   // Функция вставки координат с карты в строку адреса
@@ -97,8 +97,8 @@
         y: moveEvt.clientY
       };
 
-      pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
-      pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+      pinMain.style.top = Math.max(Math.min(pinMain.offsetTop - shift.y, tokyo.clientHeight - pinMain.offsetHeight), 0) + 'px'; // Math.max и Math.min использованы для того, чтобы метка не выезжала за границы карты
+      pinMain.style.left = Math.max(Math.min(pinMain.offsetLeft - shift.x, tokyo.clientWidth - pinMain.offsetWidth), 0)+ 'px';
     };
 
     var onMouseUp = function (upEvt) {
