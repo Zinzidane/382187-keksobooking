@@ -37,8 +37,8 @@
     element.value = value;
   };
 
-  window.synchronizeFields(timeIn, timeOut, ['12', '13', '14'], ['12', '13', '14'], syncValues);
-  window.synchronizeFields(timeOut, timeIn, ['12', '13', '14'], ['12', '13', '14'], syncValues);
+  window.synchronizeFields(timeIn, timeOut, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
+  window.synchronizeFields(timeOut, timeIn, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
   window.synchronizeFields(type, price, ['flat', 'bungalo', 'house', 'palace'], [1000, 0, 5000, 10000], syncValueWithMin);
 
   // Зависимость количеества мест от количества комнат
@@ -113,12 +113,29 @@
     return titleValid && numberValid && addressValid;
   };
 
+  var onSuccess = function () {
+    setDefaultForm();
+  };
+
+  var onError = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style.margin = 'auto';
+    node.style.textAlign = 'center';
+    node.style.backgroundColor = 'red';
+    node.style.position = 'relative';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
+    node.style.color = 'white';
+    node.textContent = errorMessage;
+    document.querySelector('.notice__form').insertAdjacentElement('beforeend', node);
+  };
+
   // Проверка правильности заполнения полей формы
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
     if (validateForm()) {
-      form.submit();
-      setDefaultForm();
+      window.backend.save(onSuccess, onError, new FormData(form));
     }
   });
 

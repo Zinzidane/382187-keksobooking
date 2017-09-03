@@ -5,21 +5,31 @@
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
 
-  // Отображаем пины на карте и скрываем карточки объявления по умолчанию
-  window.pin.render(window.data);
-  window.card.close();
-
-
-  var pinMap = document.querySelector('.tokyo__pin-map');
-  var pins = pinMap.querySelectorAll('.pin:not(:first-child)');
-
-  // Активирует первый пин и диалог при загрузке страницы
-  var activateFirstPin = function (arr) {
-    arr[0].classList.add('pin--active');
-    window.showCard(0);
+  var onLoad = function (data) {
+    window.pin.render(data);
+    window.data = data;
   };
 
-  activateFirstPin(pins);
+  var onError = function (errorMessage) {
+    var node = document.createElement('div');
+
+    node.style.margin = '0 auto';
+    node.style.textAlign = 'center';
+    node.style.backgroundColor = 'red';
+    node.style.position = 'relative';
+    node.style.padding = '20px 100px';
+    node.style.fontSize = '30px';
+    node.style.color = 'white';
+    node.textContent = errorMessage;
+    document.querySelector('.tokyo').insertAdjacentElement('afterend', node);
+  };
+  // Вызов функции загрузки данных
+  window.backend.load(onLoad, onError);
+
+
+  window.card.close();
+  var pinMap = document.querySelector('.tokyo__pin-map');
+
   // Описываем нажатие левым кликом по пину
   pinMap.onclick = function (evt) {
     var target = evt.target;
@@ -33,7 +43,6 @@
       window.showCard(target.dataset.index);
     }
   };
-
 
   // Описываем нажатие ENTER по пину
   pinMap.onkeydown = function (evt) {
@@ -60,7 +69,7 @@
   });
 
   // Перетаскивание главного маркера
-
+  var tokyo = document.querySelector('.tokyo');
   var pinMain = pinMap.querySelector('.pin__main');
 
   // Функция вставки координат с карты в строку адреса
@@ -97,8 +106,8 @@
         y: moveEvt.clientY
       };
 
-      pinMain.style.top = (pinMain.offsetTop - shift.y) + 'px';
-      pinMain.style.left = (pinMain.offsetLeft - shift.x) + 'px';
+      pinMain.style.top = Math.max(Math.min(pinMain.offsetTop - shift.y, tokyo.clientHeight - pinMain.offsetHeight), 0) + 'px';
+      pinMain.style.left = Math.max(Math.min(pinMain.offsetLeft - shift.x, tokyo.clientWidth - pinMain.offsetWidth), 0) + 'px';
     };
 
     var onMouseUp = function (upEvt) {
