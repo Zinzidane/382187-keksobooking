@@ -4,9 +4,11 @@
 (function () {
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
+  var ADS_NUMBER_ON_FIRST_LOAD = 3;
+  var DEBOUNCE_INTERVAL = 500;
 
   var onLoad = function (data) {
-    window.pin.render(data);
+    window.pin.render(data.slice(0, ADS_NUMBER_ON_FIRST_LOAD));// По ТЗ при первой загрузке отображается 3 пина
     window.data = data;
   };
 
@@ -69,7 +71,7 @@
   });
 
   // Перетаскивание главного маркера
-  var tokyo = document.querySelector('.tokyo');
+  var pinMainContainer = document.querySelector('.tokyo');
   var pinMain = pinMap.querySelector('.pin__main');
 
   // Функция вставки координат с карты в строку адреса
@@ -106,8 +108,8 @@
         y: moveEvt.clientY
       };
 
-      pinMain.style.top = Math.max(Math.min(pinMain.offsetTop - shift.y, tokyo.clientHeight - pinMain.offsetHeight), 0) + 'px';
-      pinMain.style.left = Math.max(Math.min(pinMain.offsetLeft - shift.x, tokyo.clientWidth - pinMain.offsetWidth), 0) + 'px';
+      pinMain.style.top = Math.max(Math.min(pinMain.offsetTop - shift.y, pinMainContainer.clientHeight - pinMain.offsetHeight), 0) + 'px';
+      pinMain.style.left = Math.max(Math.min(pinMain.offsetLeft - shift.x, pinMainContainer.clientWidth - pinMain.offsetWidth), 0) + 'px';
     };
 
     var onMouseUp = function (upEvt) {
@@ -120,5 +122,29 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
+
+  // Сортировка
+
+  var updatePins = function () {
+    window.card.close();
+    window.pin.deactivate();
+
+    while (pinMap.children.length !== 1) {
+      pinMap.removeChild(pinMap.children[1]);
+    }
+
+    window.pin.render(window.filters());
+  };
+
+  var filterChangeHandler = function (evt) {
+    if (!evt.target.classList.contains('tokyo__filter') && evt.target.name !== 'feature') {
+      return;
+    }
+
+    window.debounce(updatePins, DEBOUNCE_INTERVAL);
+  };
+
+  var filtersForm = document.querySelector('.tokyo__filters');
+  filtersForm.addEventListener('change', filterChangeHandler);
 
 })();

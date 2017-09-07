@@ -2,17 +2,13 @@
 'use strict';
 
 window.debounce = (function () {
-
-  var DEBOUNCE_INTERVAL = 300;
-  var lastTimeout;
-
-  return (function (func) {
-
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-
-    lastTimeout = window.setTimeout(func, DEBOUNCE_INTERVAL);
-  });
+  var timeout;
+  return function (func, wait) {
+    var context = this;
+    var args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      func.apply(context, args);
+    }, wait);
+  };
 })();
-
