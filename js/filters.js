@@ -4,14 +4,13 @@
 (function () {
 
   var filtersContainer = document.querySelector('.tokyo__filters');
-
   var housingType = filtersContainer.querySelector('#housing_type');
   var housingPrice = filtersContainer.querySelector('#housing_price');
   var housingRoomNumber = filtersContainer.querySelector('#housing_room-number');
   var housingGuestsNumber = filtersContainer.querySelector('#housing_guests-number');
   var features = filtersContainer.querySelectorAll('input[name="feature"]');
 
-  // Функция для фильтрации количества комнат и количества гостей
+  // Функция для фильтрации по типу жилья, количеству комнат и количеству гостей
   var filterTypeRoomsGuests = function (filterValue, itemValue) {
     if (filterValue === 'any' || itemValue === filterValue) {
       return true;
@@ -43,6 +42,7 @@
   };
 
   window.filters = function () {
+    // Фунцкия, которая возращает новый массив со значениями отмеченных удобств
     var housingFeatures = [].filter.call(features, function (item) {
       return item.checked;
     }).map(function (item) {
