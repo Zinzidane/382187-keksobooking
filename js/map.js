@@ -4,11 +4,11 @@
 (function () {
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
-  var ADS_NUMBER_ON_FIRST_LOAD = 3;
+  var ADS_NUMBER_INITIAL = 3;
   var DEBOUNCE_INTERVAL = 500;
 
   var onLoad = function (data) {
-    window.pin.render(data.slice(0, ADS_NUMBER_ON_FIRST_LOAD));// По ТЗ при первой загрузке отображается 3 пина
+    window.pin.render(data.slice(0, ADS_NUMBER_INITIAL));// По ТЗ при первой загрузке отображается 3 пина
     window.data = data;
   };
 
@@ -136,15 +136,17 @@
     window.pin.render(window.filters());
   };
 
+  var updatePinsDebounce = window.debounce(updatePins, DEBOUNCE_INTERVAL);
+
   var filterChangeHandler = function (evt) {
+    // Если таргет не содержит класс tokyo__filter и имя feature, то функция возвращает false
     if (!evt.target.classList.contains('tokyo__filter') && evt.target.name !== 'feature') {
       return;
     }
 
-    window.debounce(updatePins, DEBOUNCE_INTERVAL);
+    updatePinsDebounce();
   };
 
   var filtersForm = document.querySelector('.tokyo__filters');
   filtersForm.addEventListener('change', filterChangeHandler);
-
 })();

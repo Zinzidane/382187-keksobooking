@@ -1,14 +1,11 @@
 // debounce.js
 'use strict';
 
-window.debounce = (function () {
-  var timeout;
-  return function (func, wait) {
-    var context = this;
-    var args = arguments;
+window.debounce = function (func, wait) {
+  var timeout = 0;
+  return function () {
     clearTimeout(timeout);
-    timeout = setTimeout(function () {
-      func.apply(context, args);
-    }, wait);
+    timeout = setTimeout(func, wait);
   };
-})();
+};
+
