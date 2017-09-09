@@ -41,34 +41,20 @@
   window.synchronizeFields(timeOut, timeIn, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
   window.synchronizeFields(type, price, ['flat', 'bungalo', 'house', 'palace'], [1000, 0, 5000, 10000], syncValueWithMin);
 
-  // Зависимость количеества мест от количества комнат
+  // Зависимость количества мест от количества комнат
   roomNumber.addEventListener('change', function () {
     switch (roomNumber.value) {
       case '1':
-        capacity.value = '0';
+        capacity.value = '1';
         break;
       case '2':
+        capacity.value = '2';
+        break;
       case '3':
-      case '100':
         capacity.value = '3';
         break;
-    }
-  });
-
-  // Зависимость количеества комнат от количества мест
-  capacity.addEventListener('change', function () {
-    switch (capacity.value) {
-      case '0':
-        roomNumber.value = '1';
-        break;
-      case '1':
-        roomNumber.value = '2';
-        break;
-      case '2':
-        roomNumber.value = '3';
-        break;
-      case '3':
-        roomNumber.value = '100';
+      case '100':
+        capacity.value = '0';
         break;
     }
   });
