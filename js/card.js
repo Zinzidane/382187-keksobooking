@@ -30,7 +30,7 @@
       lodgeElement.querySelector('.lodge__price').textContent = element.offer.price + 'Р/ночь';
 
       var getOfferType = function (type) {
-          switch (type) {
+        switch (type) {
           case 'flat':
             return 'Квартира';
           case 'bungalo':
@@ -38,10 +38,11 @@
           case 'house':
             return 'Дом';
         }
+        return type;
       };
 
       // Заполним данные
-      lodgeElement.querySelector('.lodge__type').textContent = getOfferType(element.offer.type)
+      lodgeElement.querySelector('.lodge__type').textContent = getOfferType(element.offer.type);
       lodgeElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + element.offer.guests + ' гостей в ' + element.offer.rooms + ' комнатах';
       lodgeElement.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
       lodgeElement.querySelector('.lodge__features').appendChild(addFeatures(element.offer.features));

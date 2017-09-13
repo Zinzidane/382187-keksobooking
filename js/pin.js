@@ -12,7 +12,7 @@
 
       var fragment = document.createDocumentFragment();
 
-     elements.forEach(function (element, index) {
+      elements.forEach(function (element, index) {
         pin = document.createElement('div');
         img = document.createElement('img');
         pin.appendChild(img);
