@@ -9,36 +9,39 @@
     create: function (element) {
 
       // Объявляем функцию создания тегов  по количеству особенностей
-      var addFeatures = function (subElem) {
+      var addFeatures = function (subElements) {
         var span;
         var fragment = document.createDocumentFragment();
-        for (var i = 0; i < subElem.length; i++) {
+
+        Array.prototype.slice.call(subElements, 0).forEach(function (subElement) {
           span = document.createElement('span');
-          span.className = 'feature__image feature__image--' + subElem[i];
+          span.className = 'feature__image feature__image--' + subElement;
           fragment.appendChild(span);
-        }
-        return (fragment);
+        });
+        return fragment;
       };
       // Объявим переменную, внутри которой находится template
-      var lodgeTemplate = document.getElementById('lodge-template').content;
+      var lodgeTemplate = document.querySelector('#lodge-template').content;
       // Объявляем переменную, в которую клонируем шаблон объявления
       var lodgeElement = lodgeTemplate.cloneNode(true);
 
       lodgeElement.querySelector('.lodge__title').textContent = element.offer.title;
       lodgeElement.querySelector('.lodge__address').textContent = element.offer.address;
       lodgeElement.querySelector('.lodge__price').textContent = element.offer.price + 'Р/ночь';
-      switch (element.offer.type) {
-        case 'flat':
-          lodgeElement.querySelector('.lodge__type').textContent = 'Квартира';
-          break;
-        case 'bungalo':
-          lodgeElement.querySelector('.lodge__type').textContent = 'Бунгало';
-          break;
-        case 'house':
-          lodgeElement.querySelector('.lodge__type').textContent = 'Дом';
-          break;
-      }
+
+      var getOfferType = function (type) {
+          switch (type) {
+          case 'flat':
+            return 'Квартира';
+          case 'bungalo':
+            return 'Бунгало';
+          case 'house':
+            return 'Дом';
+        }
+      };
+
       // Заполним данные
+      lodgeElement.querySelector('.lodge__type').textContent = getOfferType(element.offer.type)
       lodgeElement.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + element.offer.guests + ' гостей в ' + element.offer.rooms + ' комнатах';
       lodgeElement.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + element.offer.checkin + ', выезд до ' + element.offer.checkout;
       lodgeElement.querySelector('.lodge__features').appendChild(addFeatures(element.offer.features));

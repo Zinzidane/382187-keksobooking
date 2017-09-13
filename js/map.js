@@ -133,7 +133,7 @@
       pinMap.removeChild(pinMap.children[1]);
     }
 
-    window.pin.render(window.filters());
+    window.pin.render(window.applyFilters());
   };
 
   var updatePinsDebounce = window.debounce(updatePins, DEBOUNCE_INTERVAL);

@@ -32,16 +32,16 @@
   };
 
   // Функция для фильтрации по удобствам
-  var filterFeatures = function (filtersFeature, itemFeatures) {
-    for (var i = 0; i < filtersFeature.length; i++) {
-      if (itemFeatures.indexOf(filtersFeature[i]) === -1) {
+  var filterFeatures = function (housingFilterFeatures, itemFeatures) {
+    for (var i = 0; i < housingFilterFeatures.length; i++) {
+      if (itemFeatures.indexOf(housingFilterFeatures[i]) === -1) {
         return false;
       }
     }
     return true;
   };
 
-  window.filters = function () {
+  window.applyFilters = function () {
     // Фунцкия, которая возращает новый массив со значениями отмеченных удобств
     var housingFeatures = [].filter.call(features, function (item) {
       return item.checked;
