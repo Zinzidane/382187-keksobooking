@@ -13,7 +13,7 @@
         var span;
         var fragment = document.createDocumentFragment();
 
-        Array.prototype.slice.call(subElements, 0).forEach(function (subElement) {
+        subElements.forEach(function (subElement) {
           span = document.createElement('span');
           span.className = 'feature__image feature__image--' + subElement;
           fragment.appendChild(span);
@@ -37,8 +37,9 @@
             return 'Бунгало';
           case 'house':
             return 'Дом';
+          default:
+            return type;
         }
-        return type;
       };
 
       // Заполним данные
