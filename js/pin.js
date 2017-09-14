@@ -3,7 +3,7 @@
 
 (function () {
   window.pin = {
-    render: function (element) {
+    render: function (elements) {
       var pinMapContainer = document.querySelector('.tokyo__pin-map');
       var pinHalfWidth = 56 / 2;
       var pinHeight = 75;
@@ -12,23 +12,24 @@
 
       var fragment = document.createDocumentFragment();
 
-      for (var i = 0; i < element.length; i++) {
+      elements.forEach(function (element, index) {
         pin = document.createElement('div');
         img = document.createElement('img');
         pin.appendChild(img);
 
         pin.className = 'pin';
         pin.setAttribute('tabindex', '0');
-        pin.style.left = (element[i].location.x - pinHalfWidth) + 'px';
-        pin.style.top = (element[i].location.y - pinHeight) + 'px';
-        pin.dataset.index = i;
+        pin.style.left = (element.location.x - pinHalfWidth) + 'px';
+        pin.style.top = (element.location.y - pinHeight) + 'px';
+        pin.dataset.index = index;
 
         img.className = 'rounded';
         img.width = 40;
         img.height = 40;
-        img.src = element[i].author.avatar;
+        img.src = element.author.avatar;
         fragment.appendChild(pin);
-      }
+      });
+
       pinMapContainer.appendChild(fragment);
     },
     deactivate: function () {

@@ -40,24 +40,7 @@
   window.synchronizeFields(timeIn, timeOut, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
   window.synchronizeFields(timeOut, timeIn, ['12:00', '13:00', '14:00'], ['12:00', '13:00', '14:00'], syncValues);
   window.synchronizeFields(type, price, ['flat', 'bungalo', 'house', 'palace'], [1000, 0, 5000, 10000], syncValueWithMin);
-
-  // Зависимость количества мест от количества комнат
-  roomNumber.addEventListener('change', function () {
-    switch (roomNumber.value) {
-      case '1':
-        capacity.value = '1';
-        break;
-      case '2':
-        capacity.value = '2';
-        break;
-      case '3':
-        capacity.value = '3';
-        break;
-      case '100':
-        capacity.value = '0';
-        break;
-    }
-  });
+  window.synchronizeFields(roomNumber, capacity, ['1', '2', '3', '100'], ['1', '2', '3', '0'], syncValues);
 
   // Валидация текстового поля
   var validateTitleInput = function (textField, minLength, maxLength) {
