@@ -31,13 +31,9 @@
 
   // Функция для фильтрации по удобствам
   var filterFeatures = function (housingFilterFeatures, itemFeatures) {
-    for (var i = 0; i < housingFilterFeatures.length; i++) {
-      if (itemFeatures.indexOf(housingFilterFeatures[i]) === -1) {
-        return false;
-      }
-    }
-
-    return true;
+    return housingFilterFeatures.every(function (item) {
+      return itemFeatures.indexOf(item) !== -1;
+    });
   };
 
   window.applyFilters = function () {
