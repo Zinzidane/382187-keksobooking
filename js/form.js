@@ -69,7 +69,8 @@
   var validateAddress = function (addressField) {
     switch (addressField.value) {
       case '':
-        markInputInvalid(addressField);
+        addressField.style.borderColor = 'red';
+        return false;
       default:
         addressField.style.borderColor = '';
         return true;

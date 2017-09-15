@@ -26,7 +26,7 @@
     } else if (housingPrice.value === 'low') {
       return price < PRICE_LOW_UPPER_LIMIT;
     }
-      return true;
+    return true;
   };
 
   // Функция для фильтрации по удобствам
