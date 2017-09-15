@@ -12,10 +12,7 @@
 
   // Функция для фильтрации по типу жилья, количеству комнат и количеству гостей
   var filterTypeRoomsGuests = function (filterValue, itemValue) {
-    if (filterValue === 'any' || itemValue === filterValue) {
-      return true;
-    }
-    return false;
+    return filterValue === 'any' || itemValue === filterValue;
   };
 
   // Функция для фильтрации по цене
