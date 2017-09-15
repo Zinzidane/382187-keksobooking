@@ -26,9 +26,8 @@
       return (price >= 10000) && (price < 50000);
     } else if (housingPrice.value === 'low') {
       return price < 10000;
-    } else {
-      return true;
     }
+      return true;
   };
 
   // Функция для фильтрации по удобствам
