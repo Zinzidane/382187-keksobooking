@@ -32,17 +32,20 @@
   window.card.close();
   var pinMap = document.querySelector('.tokyo__pin-map');
 
+
+  var activatePinAndCard = function (element) {
+    window.pin.activate(element);
+    window.showCard(element.dataset.index);
+  };
   // Описываем нажатие левым кликом по пину
   pinMap.onclick = function (evt) {
     var target = evt.target;
     if (target.tagName === 'DIV' && target.dataset.index) {
-      window.pin.activate(target);
-      window.showCard(target.dataset.index);
+      activatePinAndCard(target);
     }
     if (target.tagName === 'IMG' && target.closest('.pin').dataset.index) {
       target = target.closest('.pin');
-      window.pin.activate(target);
-      window.showCard(target.dataset.index);
+      activatePinAndCard(target);
     }
   };
 

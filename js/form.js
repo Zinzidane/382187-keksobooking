@@ -42,11 +42,16 @@
   window.synchronizeFields(type, price, ['flat', 'bungalo', 'house', 'palace'], [1000, 0, 10000, 30000], syncValueWithMin);
   window.synchronizeFields(roomNumber, capacity, ['1', '2', '3', '100'], ['1', '2', '3', '0'], syncValues);
 
+  // Функция, которая обводит невалидное поле красным цветом и возвращает false
+  var markInputInvalid = function (element) {
+    element.style.borderColor = 'red';
+    return false;
+  };
+
   // Валидация текстового поля
   var validateTitleInput = function (textField, minLength, maxLength) {
     if (textField.value.length < minLength || textField.value.length > maxLength) {
-      textField.style.borderColor = 'red';
-      return false;
+      markInputInvalid(textField);
     }
     textField.style.borderColor = '';
     return true;
@@ -55,8 +60,7 @@
   // Функция валидации числового поля
   var validateNumberInput = function (numberField, minValue, maxValue) {
     if (Number(numberField.value) <= Number(minValue) || Number(numberField.value) > Number(maxValue)) {
-      numberField.style.borderColor = 'red';
-      return false;
+      markInputInvalid(numberField);
     }
     numberField.style.borderColor = '';
     return true;
@@ -65,8 +69,7 @@
   var validateAddress = function (addressField) {
     switch (addressField.value) {
       case '':
-        addressField.style.borderColor = 'red';
-        return false;
+        markInputInvalid(addressField);
       default:
         addressField.style.borderColor = '';
         return true;
