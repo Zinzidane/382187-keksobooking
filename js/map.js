@@ -138,7 +138,7 @@
 
   var updatePinsDebounce = window.debounce(updatePins, DEBOUNCE_INTERVAL);
 
-  var filterChangeHandler = function (evt) {
+  var onFilterChange = function (evt) {
     // Если таргет не содержит класс tokyo__filter и имя feature, то функция возвращает false
     if (!evt.target.classList.contains('tokyo__filter') && evt.target.name !== 'feature') {
       return;
@@ -148,5 +148,5 @@
   };
 
   var filtersForm = document.querySelector('.tokyo__filters');
-  filtersForm.addEventListener('change', filterChangeHandler);
+  filtersForm.addEventListener('change', onFilterChange);
 })();
