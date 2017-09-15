@@ -2,6 +2,8 @@
 'use strict';
 
 (function () {
+  var PRICE_LOW_UPPER_LIMIT = 10000;
+  var PRICE_MIDDLE_UPPER_LIMIT = 50000;
 
   var filtersContainer = document.querySelector('.tokyo__filters');
   var housingType = filtersContainer.querySelector('#housing_type');
@@ -18,11 +20,11 @@
   // Функция для фильтрации по цене
   var filterPrice = function (price) {
     if (housingPrice.value === 'high') {
-      return price >= 50000;
+      return price >= PRICE_MIDDLE_UPPER_LIMIT;
     } else if (housingPrice.value === 'middle') {
-      return (price >= 10000) && (price < 50000);
+      return (price >= PRICE_LOW_UPPER_LIMIT) && (price < PRICE_MIDDLE_UPPER_LIMIT);
     } else if (housingPrice.value === 'low') {
-      return price < 10000;
+      return price < PRICE_LOW_UPPER_LIMIT;
     }
       return true;
   };
