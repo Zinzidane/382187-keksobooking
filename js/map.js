@@ -7,9 +7,21 @@
   var ADS_NUMBER_INITIAL = 3;
   var DEBOUNCE_INTERVAL = 500;
 
+  var ads = [];
+
+  var updatePins = function () {
+    window.data = window.filter.apply(ads);
+    window.pin.render(window.data);
+  };
+
+  var updatePinsDebounce = window.debounce(updatePins, DEBOUNCE_INTERVAL);
+
+  // Объявим callback-функцию которая отрисует пины при успешной загрузке данных
   var onLoad = function (data) {
-    window.pin.render(data.slice(0, ADS_NUMBER_INITIAL));// По ТЗ при первой загрузке отображается 3 пина
-    window.data = data;
+    ads = data;
+    // Согласно ТЗ при загрузке должно отображаться три пина
+    window.data = data.slice(0, ADS_NUMBER_INITIAL);
+    window.pin.render(window.data);
   };
 
   var onError = function (errorMessage) {
@@ -53,8 +65,7 @@
   pinMap.onkeydown = function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
       var target = evt.target;
-      window.pin.activate(target);
-      window.showCard(target.dataset.index);
+      activatePinAndCard(target);
     }
   };
 
@@ -126,30 +137,11 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-  // Сортировка
-
-  var updatePins = function () {
+  window.filter.container.addEventListener('change', function () {
     window.card.close();
-    window.pin.deactivate();
-
     while (pinMap.children.length !== 1) {
       pinMap.removeChild(pinMap.children[1]);
     }
-
-    window.pin.render(window.applyFilters());
-  };
-
-  var updatePinsDebounce = window.debounce(updatePins, DEBOUNCE_INTERVAL);
-
-  var onFilterChange = function (evt) {
-    // Если таргет не содержит класс tokyo__filter и имя feature, то функция возвращает false
-    if (!evt.target.classList.contains('tokyo__filter') && evt.target.name !== 'feature') {
-      return;
-    }
-
     updatePinsDebounce();
-  };
-
-  var filtersForm = document.querySelector('.tokyo__filters');
-  filtersForm.addEventListener('change', onFilterChange);
+  });
 })();
