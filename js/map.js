@@ -4,11 +4,10 @@
 (function () {
   var ENTER_KEYCODE = 13;
   var ESC_KEYCODE = 27;
-  var ADS_NUMBER_INITIAL = 3;
   var DEBOUNCE_INTERVAL = 500;
 
   var onLoad = function (data) {
-    window.pin.render(data.slice(0, ADS_NUMBER_INITIAL));// По ТЗ при первой загрузке отображается 3 пина
+    window.pin.render(data);
     window.data = data;
   };
 
