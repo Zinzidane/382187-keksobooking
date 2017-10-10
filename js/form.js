@@ -2,6 +2,8 @@
 'use strict';
 
 (function () {
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
   // Переменные формы с объявлением
   var form = document.querySelector('.notice__form');
   var title = form.querySelector('#title');
@@ -27,6 +29,33 @@
   };
 
   setDefaultForm();
+
+  // Аватар пользователя
+
+
+  
+  var fileChooser = document.querySelector('.notice__photo input[type=file]');
+  var preview = document.querySelector('.notice__preview img');
+  
+  fileChooser.addEventListener('change', function () {
+    var file = fileChooser.files[0];
+    var fileName = file.name.toLowerCase();
+    
+    var matches = FILE_TYPES.some(function (it) {
+     return fileName.endsWith(it);
+    });
+    
+    if (matches) {
+      var reader = new FileReader();
+      
+      reader.addEventListener('load', function () {
+        preview.src = reader.result;
+      });
+      
+      reader.readAsDataURL(file);
+    }
+  });
+
 
   var syncValues = function (element, value) {
     element.value = value;
