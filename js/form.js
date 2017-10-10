@@ -65,10 +65,6 @@
   };
 
   // Фотографии жилья, загружаемые пользователем
-
-  var photoFileChooser = document.querySelector('.form__photo-container input[type=file]');
-  var photoPreview = document.querySelector('.form__photo-container .form__photo');
-  
   var domPhoto = form.querySelector('.form__photo-container');
   var domPhotoInput = domPhoto.querySelector('input[type="file"]');
   var domPhotoPreviewTemplate = document.querySelector('#photo-template').content;
@@ -88,11 +84,9 @@
   var renderPhotoPreviewContainer = function (isContainerEmpty) {
     var domElement = domPhotoPreviewTemplate.cloneNode(true);
 
-
     if (isContainerEmpty) {
       domElement.children[0].innerHTML = '';
     }
-
 
     return domElement;
   };
